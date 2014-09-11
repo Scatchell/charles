@@ -32,6 +32,10 @@ gem 'timecop'
 
 gem 'pg'
 
+gem 'rails_12factor', group: :production
+
+gem 'devise'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -44,3 +48,4 @@ gem 'pg'
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+ruby '2.1.2'

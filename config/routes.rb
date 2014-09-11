@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users, :controllers => {:registrations => "registrations"}
   # get 'days/create'
   #
   # get 'days/update'
@@ -8,6 +9,8 @@ Rails.application.routes.draw do
   # get 'days/list'
 
   match '/create_or_update' => 'days#create_or_update', via: :post
+
+  get '/successful_registration' => 'users#successful_registration'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
