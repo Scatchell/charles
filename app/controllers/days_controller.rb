@@ -10,7 +10,7 @@ class DaysController < ApplicationController
   end
 
   def list
-    @days = Day.all
+    @days = Day.order(start_time: :desc)
   end
 
   private
