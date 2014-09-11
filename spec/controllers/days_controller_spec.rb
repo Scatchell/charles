@@ -62,7 +62,7 @@ RSpec.describe DaysController, :type => :controller do
       user = create(:user)
       sign_in user
 
-      days_created = create_list(:day, 3)
+      days_created = create_list(:day, 3, user: user)
       get :list
       assigns(:days).should == days_created
     end
