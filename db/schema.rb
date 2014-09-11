@@ -27,7 +27,6 @@ ActiveRecord::Schema.define(version: 20140911192243) do
   add_index "days", ["user_id"], name: "index_days_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "auth_code",              default: "", null: false
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
@@ -40,7 +39,7 @@ ActiveRecord::Schema.define(version: 20140911192243) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "user_auth",              default: "", null: false
+    t.string   "auth_code",              default: "", null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
