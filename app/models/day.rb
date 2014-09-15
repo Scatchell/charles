@@ -10,8 +10,8 @@ class Day < ActiveRecord::Base
     puts 'starting days iteration'
 
     user.days.select do |day|
-      puts day.start_time.to_date
-      puts time.to_date
+      puts day.start_time.to_s
+      puts time.to_s
 
       day.start_time.to_date == time.to_date
     end.first
