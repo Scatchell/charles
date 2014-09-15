@@ -22,9 +22,24 @@ class Day < ActiveRecord::Base
         day_to_change.end_time = end_time
         day_to_change.save
       else
-
-        @day = Day.create(start_time: Time.now, end_time: end_time, user: user)
+        time_zone = DaysHelper::get_time_zone_from(end_time.gmt_offset)
+        @day = Day.create(start_time: end_time, end_time: end_time, time_zone: time_zone, user: user)
       end
     end
+  end
+
+  def start_time
+    user_time_zone { read_attribute(:start_time) }
+  end
+
+  def end_time
+    user_time_zone { read_attribute(:end_time) }
+  end
+
+
+  private
+
+  def user_time_zone(&block)
+    Time.use_zone(self.time_zone, &block)
   end
 end

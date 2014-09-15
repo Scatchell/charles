@@ -3,7 +3,7 @@ class DaysController < ApplicationController
   before_action :authenticate_user!, except: :create_or_update
 
   def create_or_update
-    end_time_from_post = seconds_to_time(params[:end_time])
+    end_time_from_post = seconds_to_time(params[:end_time]).in_time_zone(DaysHelper::get_time_zone_from(params[:gmt_offset]))
     user_auth_code_from_post = params[:user_auth]
 
     Day.create_or_update_date end_time_from_post, user_auth_code_from_post

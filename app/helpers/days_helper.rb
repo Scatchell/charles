@@ -20,4 +20,8 @@ module DaysHelper
     beg_of_week(first_day_start_time) + (7*24*60*60)
   end
 
+  def self.get_time_zone_from(offset)
+    ActiveSupport::TimeZone[offset.to_i].name
+  end
+
 end

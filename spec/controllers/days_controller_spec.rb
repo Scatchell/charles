@@ -6,14 +6,30 @@ RSpec.describe DaysController, :type => :controller do
     after(:each) do
       expect(response).to be_success
     end
+
     it 'Should create a day if it doesnt exist' do
       user = create(:user, auth_code: '12345')
 
       expect {
-        post :create_or_update, {user_auth: '12345', end_time: '1388556000'}
+        post :create_or_update, {user_auth: '12345', end_time: '1388556000', gmt_offset: '-25200'}
       }.to change(Day, :count).by(1)
 
       Day.last.user_id.should == user.id
+    end
+
+    it 'Should create a day with the correct timezone' do
+      create(:user, auth_code: '12345')
+
+      initial_time_string = Time.at(1388556000)
+
+      athens_gmt_offset = Time.at(1388556000).in_time_zone('Europe/Athens').gmt_offset.to_s
+
+      expect {
+        post :create_or_update, {user_auth: '12345', end_time: '1388556000', gmt_offset: athens_gmt_offset}
+      }.to change(Day, :count).by(1)
+
+      # using to_s compares the time zone's as well as the full date and time
+      Day.last.end_time.to_s.should == initial_time_string.in_time_zone('Europe/Athens').to_s
     end
 
     it 'Should update a day if it does exist for the given user auth' do
@@ -58,20 +74,28 @@ RSpec.describe DaysController, :type => :controller do
       }.to change(Day, :count).by(0)
     end
 
-    it 'List all days' do
+    it 'List all days in descending order' do
       user = create(:user)
       sign_in user
 
-      days_created = create_list(:day, 3, user: user)
-      get :list
-      assigns(:days).should == days_created
-    end
+      time = Time.at(1388556000)
 
+      earliest_day = create(:day, start_time: time, end_time: time + 1000, user: user)
+      latest_day = create(:day, start_time: time + 2000, end_time: time + 3000, user: user)
+      middle_day = create(:day, start_time: time + 1000, end_time: time + 2000, user: user)
+      get :list
+
+      assigns(:days).to_a.should == [latest_day, middle_day, earliest_day]
+    end
 
     # todo enable deletion of days sometime
     # it "returns http success" do
     #   get :delete
     #   expect(response).to be_success
     # end
+    private
+    def get_time_zone time
+      time.strftime('%z')
+    end
   end
 end
