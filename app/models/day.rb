@@ -7,7 +7,12 @@ class Day < ActiveRecord::Base
   end
 
   def self.day_for_date(time, user)
+    puts 'starting days iteration'
+    
     user.days.select do |day|
+      puts day.start_time.to_date
+      puts time.to_date
+
       day.start_time.to_date == time.to_date
     end.first
   end
