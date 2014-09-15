@@ -33,9 +33,9 @@ RSpec.describe DaysController, :type => :controller do
     end
 
     it 'Should update a day if it does exist for the given user auth' do
-      time = Time.new(2014)
+      time = Time.new(2014).in_time_zone('Etc/UTC')
 
-      day = create(:day, start_time: time, end_time: time + 1000)
+      day = create(:day, start_time: time, end_time: time + 1000, time_zone: 'Etc/UTC')
       create(:user, auth_code: '12345', days: [day])
       old_ending_time = day.end_time.to_i.to_s
 
