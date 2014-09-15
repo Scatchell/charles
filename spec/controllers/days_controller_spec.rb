@@ -40,7 +40,7 @@ RSpec.describe DaysController, :type => :controller do
       old_ending_time = day.end_time.to_i.to_s
 
       new_ending_time = (old_ending_time.to_i + 1000).to_s
-      post :create_or_update, {user_auth: '12345', end_time: new_ending_time}
+      post :create_or_update, {user_auth: '12345', end_time: new_ending_time, gmt_offset: 0}
 
       updated_day = Day.find(day.id)
       updated_day.end_time.to_i.should == new_ending_time.to_i
