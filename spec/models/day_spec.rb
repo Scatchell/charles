@@ -18,7 +18,7 @@ RSpec.describe Day, :type => :model do
 
   it 'should know that a certain date already exists' do
     start_time = Time.new(2014, 1, 1, 1, 1, 1)
-    end_time = Time.new(2014, 1, 1, 10, 10, 10)
+    end_time = Time.new(2014, 1, 1, 10, 10, 10).in_time_zone('Pacific Time (US & Canada)')
     user = create(:user)
     created_day = create(:day, start_time: start_time, end_time: end_time, user: user)
 
