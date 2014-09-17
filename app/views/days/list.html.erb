@@ -24,6 +24,9 @@
           <td>(debug) Seconds start to end:</td>
           <td><%= day.start_time.to_i %> : <%= day.end_time.to_i %></td>
         </tr>
+        <tr>
+          <td><%= link_to 'Edit', edit_day_path(day) %></td>
+        </tr>
         </tbody>
       </table>
       <br/>

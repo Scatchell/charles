@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   #
   # get 'days/list'
 
+  resources :days, only: [:update, :edit]
+
   match '/create_or_update' => 'days#create_or_update', via: :post
 
   get '/successful_registration' => 'users#successful_registration'

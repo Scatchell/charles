@@ -1,4 +1,6 @@
 class Day < ActiveRecord::Base
+  include DaysHelper
+
   belongs_to :user
 
   def time_worked
@@ -35,7 +37,6 @@ class Day < ActiveRecord::Base
   def end_time
     user_time_zone { read_attribute(:end_time) }
   end
-
 
   private
 

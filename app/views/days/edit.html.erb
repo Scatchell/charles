@@ -1,0 +1,26 @@
+<h1>Day#edit</h1>
+<p>Find me in app/views/day/edit.html.erb</p>
+
+<%= @day.start_time %>
+
+<%= form_for @day, :html => {:class => 'form-horizontal'} do |f| %>
+    <div class="control-group">
+      <%= f.label :start_time, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :start_time, :class => 'text_field', value: @day.start_time %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label :end_time, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :end_time, :class => 'text_field', value: @day.end_time  %>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+              root_path, :class => 'btn' %>
+    </div>
+<% end %>
+

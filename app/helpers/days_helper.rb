@@ -23,5 +23,4 @@ module DaysHelper
   def self.get_time_zone_from(offset)
     ActiveSupport::TimeZone[offset.to_i].name
   end
-
 end

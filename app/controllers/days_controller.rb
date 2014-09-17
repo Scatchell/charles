@@ -15,8 +15,36 @@ class DaysController < ApplicationController
     @days = current_user.days.order(start_time: :desc)
   end
 
+  def edit
+    set_day
+  end
+
+  def update
+    set_day
+
+    respond_to do |format|
+      if @day.update(day_params)
+        format.html { redirect_to root_path, notice: 'Day successfully updated!' }
+      else
+        format.html { redirect_to root_path, notice: 'Something went wrong - day was not updated' }
+      end
+    end
+
+  end
+
   private
   def seconds_to_time seconds
     Time.at(seconds.to_i)
+  end
+
+  private
+  # Use callbacks to share common setup or constraints between actions.
+  def set_day
+    @day = Day.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def day_params
+    params[:day].permit(:start_time, :end_time)
   end
 end

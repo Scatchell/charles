@@ -98,4 +98,22 @@ RSpec.describe DaysController, :type => :controller do
       time.strftime('%z')
     end
   end
+
+  describe 'update existing days' do
+    it 'should update an existing day' do
+      user = create(:user)
+      sign_in user
+
+      time = Time.at(1388556000)
+      new_start_time = Time.at(1388556000) + 1000
+      created_day = create(:day, start_time: time, end_time: time + 1000, user: user)
+
+      # Day.any_instance.should_receive(:update).with({'start_time' => new_start_time})
+      put :update, {:id => created_day.to_param, :day => {'start_time' => new_start_time}}, {}
+      newly_updated_day = Day.find(created_day.id)
+      newly_updated_day.start_time.should == new_start_time
+
+      expect(response).to redirect_to root_path
+    end
+  end
 end
