@@ -15,12 +15,7 @@ class DaysController < ApplicationController
   def list
     days = current_user.days.order(start_time: :desc)
     @weeks = sort_by_weeks(days)
-    @weeks.each do |week|
-      puts 'week'
-      week.each do |day|
-        puts day.start_time.strftime('%Y-%W')
-      end
-    end
+    @total_days = @weeks.flatten.size
   end
 
   def edit
