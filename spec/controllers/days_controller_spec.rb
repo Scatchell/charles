@@ -78,14 +78,29 @@ RSpec.describe DaysController, :type => :controller do
       user = create(:user)
       sign_in user
 
-      time = Time.at(1388556000)
+      time_on_tuesday = Time.at(1388556000)
 
-      earliest_day = create(:day, start_time: time, end_time: time + 1000, user: user)
-      latest_day = create(:day, start_time: time + 2000, end_time: time + 3000, user: user)
-      middle_day = create(:day, start_time: time + 1000, end_time: time + 2000, user: user)
+      earliest_day = create(:day, start_time: time_on_tuesday, end_time: time_on_tuesday + 1000, user: user)
+      latest_day = create(:day, start_time: time_on_tuesday + 2000, end_time: time_on_tuesday + 3000, user: user)
+      middle_day = create(:day, start_time: time_on_tuesday + 1000, end_time: time_on_tuesday + 2000, user: user)
       get :list
 
       assigns(:days).to_a.should == [latest_day, middle_day, earliest_day]
+    end
+
+    it 'should separate days by week' do
+      user = create(:user)
+      sign_in user
+
+      time_on_tuesday = Time.at(1388556000)
+      time_on_monday_next_week = Time.at(1389074400)
+
+      first_week_day = create(:day, start_time: time_on_tuesday, end_time: time_on_tuesday + 1000, user: user)
+      second_week_day = create(:day, start_time: time_on_monday_next_week, end_time: time_on_monday_next_week + 1000, user: user)
+
+      get :list
+
+      assigns(:weeks).should == [[first_week_day], [second_week_day]]
     end
 
     # todo enable deletion of days sometime

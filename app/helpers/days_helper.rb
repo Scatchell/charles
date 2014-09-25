@@ -1,6 +1,23 @@
 module DaysHelper
-  def display_days_by_week(weeks)
-    # todo this code was grabbed from original charles and will need some tweaking
+  def sort_by_weeks(days)
+    weeks = group_weeks(days)
+
+    weeks.sort_by do |week_date, week|
+      week.first.start_time
+    end
+
+    weeks.collect do |week|
+      week[1]
+    end.reverse
+  end
+
+  def group_weeks(days)
+    days.group_by do |day|
+      day.start_time.strftime('%Y-%W')
+    end
+  end
+
+  def different
     weeks.each do |week|
       first_day_of_week = beg_of_week week[0].start_time
       last_day_of_week = end_of_week week[0].start_time

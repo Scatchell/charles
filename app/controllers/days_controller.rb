@@ -1,4 +1,5 @@
 class DaysController < ApplicationController
+  include DaysHelper
   protect_from_forgery except: :create_or_update, with: :exception
   before_action :authenticate_user!, except: :create_or_update
 
@@ -13,6 +14,7 @@ class DaysController < ApplicationController
 
   def list
     @days = current_user.days.order(start_time: :desc)
+    @weeks = sort_by_weeks(current_user.days)
   end
 
   def edit

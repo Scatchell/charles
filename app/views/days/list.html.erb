@@ -2,34 +2,38 @@
 <p>Total days: <%= @days.size %></p>
 
 <ul style="list-style-type:square">
-  <% @days.each do |day| %>
+  <% @weeks.each_with_index do |days_in_week, index| %>
+      <h4>Week #<%= index + 1 %></h4>
       <table>
         <tbody>
-        <tr>
-          <b>Date: <%= day.start_time.strftime('%m/%d/%Y') %></b>
-        </tr>
-        <tr>
-          <td>Start time for this day:</td>
-          <td><%= day.start_time.strftime('%H:%M') %></td>
-        </tr>
-        <tr>
-          <td>Latest ended time:</td>
-          <td><%= day.end_time.strftime('%H:%M') %></td>
-        </tr>
-        <tr>
-          <td>Total hours worked this day:</td>
-          <td><%= day.time_worked %></td>
-        </tr>
-        <tr>
-          <td>(debug) Seconds start to end:</td>
-          <td><%= day.start_time.to_i %> : <%= day.end_time.to_i %></td>
-        </tr>
-        <tr>
-          <td><%= link_to 'Edit', edit_day_path(day) %></td>
-        </tr>
+        <% days_in_week.each do |day| %>
+            <tr>
+              <td><b>Date: <%= day.start_time.strftime('%A -- %m/%d/%Y') %></b></td>
+            </tr>
+            <tr>
+              <td>Start time for this day:</td>
+              <td><%= day.start_time.strftime('%H:%M') %></td>
+            </tr>
+            <tr>
+              <td>Latest ended time:</td>
+              <td><%= day.end_time.strftime('%H:%M') %></td>
+            </tr>
+            <tr>
+              <td>Total hours worked this day:</td>
+              <td><%= day.time_worked %></td>
+            </tr>
+            <tr>
+              <td>(debug) Seconds start to end:</td>
+              <td><%= day.start_time.to_i %> : <%= day.end_time.to_i %></td>
+            </tr>
+            <tr>
+              <td><%= link_to 'Edit', edit_day_path(day) %></td>
+            </tr>
+        <% end %>
         </tbody>
       </table>
       <br/>
-      <br/>
   <% end %>
+  <br/>
+  <br/>
 </ul>
