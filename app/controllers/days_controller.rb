@@ -13,8 +13,14 @@ class DaysController < ApplicationController
   end
 
   def list
-    @days = current_user.days.order(start_time: :desc)
-    @weeks = sort_by_weeks(current_user.days)
+    days = current_user.days.order(start_time: :desc)
+    @weeks = sort_by_weeks(days)
+    @weeks.each do |week|
+      puts 'week'
+      week.each do |day|
+        puts day.start_time.strftime('%Y-%W')
+      end
+    end
   end
 
   def edit

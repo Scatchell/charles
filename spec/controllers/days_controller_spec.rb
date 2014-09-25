@@ -73,34 +73,51 @@ RSpec.describe DaysController, :type => :controller do
         post :create_or_update, {user_auth: '12345', end_time: 1388558000}
       }.to change(Day, :count).by(0)
     end
+    #
+    # it 'List all days in descending order' do
+    #   user = create(:user)
+    #   sign_in user
+    #
+    #   time_on_tuesday = Time.at(1388556000)
+    #
+    #   earliest_day = create(:day, start_time: time_on_tuesday, end_time: time_on_tuesday + 1000, user: user)
+    #   latest_day = create(:day, start_time: time_on_tuesday + 2000, end_time: time_on_tuesday + 3000, user: user)
+    #   middle_day = create(:day, start_time: time_on_tuesday + 1000, end_time: time_on_tuesday + 2000, user: user)
+    #   get :list
+    #
+    #   assigns(:days).to_a.should == [latest_day, middle_day, earliest_day]
+    # end
 
-    it 'List all days in descending order' do
+    it 'should separate days by week and order weeks' do
       user = create(:user)
       sign_in user
 
       time_on_tuesday = Time.at(1388556000)
+      time_on_tuesday_next_week = time_on_tuesday + 7.days
 
-      earliest_day = create(:day, start_time: time_on_tuesday, end_time: time_on_tuesday + 1000, user: user)
-      latest_day = create(:day, start_time: time_on_tuesday + 2000, end_time: time_on_tuesday + 3000, user: user)
-      middle_day = create(:day, start_time: time_on_tuesday + 1000, end_time: time_on_tuesday + 2000, user: user)
-      get :list
-
-      assigns(:days).to_a.should == [latest_day, middle_day, earliest_day]
-    end
-
-    it 'should separate days by week' do
-      user = create(:user)
-      sign_in user
-
-      time_on_tuesday = Time.at(1388556000)
-      time_on_monday_next_week = Time.at(1389074400)
-
+      second_week_day = create(:day, start_time: time_on_tuesday_next_week, end_time: time_on_tuesday_next_week + 1000, user: user)
       first_week_day = create(:day, start_time: time_on_tuesday, end_time: time_on_tuesday + 1000, user: user)
-      second_week_day = create(:day, start_time: time_on_monday_next_week, end_time: time_on_monday_next_week + 1000, user: user)
 
       get :list
 
       assigns(:weeks).should == [[first_week_day], [second_week_day]]
+    end
+
+    it 'should sort days separated by week' do
+      user = create(:user)
+      sign_in user
+
+      time_on_wednesday = Time.at(1388556000)
+      time_on_wednesday_next_week = time_on_wednesday + 7.days
+
+      first_week_friday = create(:day, start_time: time_on_wednesday + 4.day, end_time: time_on_wednesday + 4.day + 1000, user: user)
+      first_week_thursday = create(:day, start_time: time_on_wednesday + 3.day, end_time: time_on_wednesday + 3.day + 1000, user: user)
+      first_week_wednesday = create(:day, start_time: time_on_wednesday + 2.days, end_time: time_on_wednesday + 2.days + 1000, user: user)
+      second_week_wednesday = create(:day, start_time: time_on_wednesday_next_week, end_time: time_on_wednesday_next_week + 1000, user: user)
+
+      get :list
+
+      assigns(:weeks).should == [[first_week_friday, first_week_thursday, first_week_wednesday], [second_week_wednesday]]
     end
 
     # todo enable deletion of days sometime
