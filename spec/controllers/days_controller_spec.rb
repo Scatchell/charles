@@ -100,7 +100,7 @@ RSpec.describe DaysController, :type => :controller do
 
       get :list
 
-      assigns(:weeks).should == [[first_week_day], [second_week_day]]
+      assigns(:weeks).should == [[second_week_day], [first_week_day]]
     end
 
     it 'should sort days separated by week' do
@@ -117,7 +117,7 @@ RSpec.describe DaysController, :type => :controller do
 
       get :list
 
-      assigns(:weeks).should == [[first_week_friday, first_week_thursday, first_week_wednesday], [second_week_wednesday]]
+      assigns(:weeks).should == [[second_week_wednesday], [first_week_friday, first_week_thursday, first_week_wednesday]]
     end
 
     it 'should know total days' do
@@ -127,10 +127,10 @@ RSpec.describe DaysController, :type => :controller do
       time_on_wednesday = Time.at(1388556000)
       time_on_wednesday_next_week = time_on_wednesday + 7.days
 
-      first_week_friday = create(:day, start_time: time_on_wednesday + 4.day, end_time: time_on_wednesday + 4.day + 1000, user: user)
-      first_week_thursday = create(:day, start_time: time_on_wednesday + 3.day, end_time: time_on_wednesday + 3.day + 1000, user: user)
-      first_week_wednesday = create(:day, start_time: time_on_wednesday + 2.days, end_time: time_on_wednesday + 2.days + 1000, user: user)
-      second_week_wednesday = create(:day, start_time: time_on_wednesday_next_week, end_time: time_on_wednesday_next_week + 1000, user: user)
+      create(:day, start_time: time_on_wednesday + 4.day, end_time: time_on_wednesday + 4.day + 1000, user: user)
+      create(:day, start_time: time_on_wednesday + 3.day, end_time: time_on_wednesday + 3.day + 1000, user: user)
+      create(:day, start_time: time_on_wednesday + 2.days, end_time: time_on_wednesday + 2.days + 1000, user: user)
+      create(:day, start_time: time_on_wednesday_next_week, end_time: time_on_wednesday_next_week + 1000, user: user)
 
       get :list
 

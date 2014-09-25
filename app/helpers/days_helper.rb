@@ -2,13 +2,13 @@ module DaysHelper
   def sort_by_weeks(days)
     weeks = group_weeks(days)
 
-    weeks.sort_by do |week_date, week|
+    weeks.sort_by do |_, week|
       week.first.start_time
     end
 
     weeks.collect do |week|
       week[1]
-    end.reverse
+    end
   end
 
   def group_weeks(days)
