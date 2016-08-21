@@ -31,16 +31,16 @@ class Day < ActiveRecord::Base
   end
 
   def start_time
-    user_time_zone { read_attribute(:start_time) }
+    user_time_zone read_attribute(:start_time)
   end
 
   def end_time
-    user_time_zone { read_attribute(:end_time) }
+    user_time_zone read_attribute(:end_time)
   end
 
   private
 
-  def user_time_zone(&block)
-    Time.use_zone(self.time_zone, &block)
+  def user_time_zone(time)
+    time.in_time_zone(self.time_zone)
   end
 end

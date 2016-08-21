@@ -25,5 +25,17 @@ RSpec.describe Day, :type => :model do
     Day.day_for_date(end_time, user).should == created_day
   end
 
+  it 'should know start time in correct time zone' do
+    time = '2016-08-15 09:00'.to_time.in_time_zone('UTC')
+    later_time = '2016-08-15 17:00'.to_time.in_time_zone('UTC')
+    user = create(:user)
+    puts time.gmt_offset
+    time_zone = DaysHelper.get_time_zone_from(time.gmt_offset)
+    puts time_zone
+    day = create(:day, start_time: time, end_time: later_time, time_zone: time_zone, user: user)
+
+    day.start_time.to_s.should == '2016-08-15 09:00:00 +0100'
+  end
+
 #   todo specs for decimal times
 end
